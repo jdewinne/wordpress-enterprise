@@ -1,4 +1,4 @@
-name: development
+name: development-dynamic
 
 on:
   push:
@@ -9,11 +9,27 @@ on:
       - '!main'     # excludes main
 
 jobs:
+  get-customer-instances:
+    outputs:
+      matrix: ${{ steps.get-customer-instances.outputs.matrix}}
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get Customer Instances
+        id: get-customer-instances
+        uses: replicatedhq/compatibility-actions/get-customer-instances@v0
+        with:
+          app-slug: ${{ secrets.REPLICATED_APP }}
+          api-token: ${{ secrets.REPLICATED_API_TOKEN }}
+
   compatibility-matrix:
+    needs: get-customer-instances
+    if: ${{ !contains(needs.get-customer-instances.outputs.matrix, '[]') }}
     strategy:
       fail-fast: false
       matrix:
-        cluster: [ {distribution: kind, version: v1.25.3}]
+        cluster: ${{ fromJson(needs.get-customer-instances.outputs.matrix) }}
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -25,8 +41,8 @@ jobs:
       - name: Package Helm Chart for Replicated
         id: package-helm-chart
         run: |
-          mkdir manifests2
-          helm package . -u -d manifests2 \
+          mkdir manifests3
+          helm package . -u -d manifests3 \
             --app-version=0.0.1-${{ github.ref_name }} \
             --version=${{ env.APP_VERSION }}
 
@@ -36,7 +52,7 @@ jobs:
         with:
           app-slug: ${{ secrets.REPLICATED_APP }}
           api-token: ${{ secrets.REPLICATED_API_TOKEN }}
-          yaml-dir: manifests2
+          yaml-dir: manifests3
           kubernetes-distribution: ${{ matrix.cluster.distribution }}
           kubernetes-version: ${{ matrix.cluster.version }}
           installation-method: helm
