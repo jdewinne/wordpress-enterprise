@@ -48,7 +48,7 @@ jobs:
 
       - name: Smoke Test
         id: smoke-test
-        uses: replicatedhq/compatibility-actions/smoke-test@v0
+        uses: replicatedhq/compatibility-actions/smoke-test@joshd/timeouts-for-smoke-test
         with:
           app-slug: ${{ secrets.REPLICATED_APP }}
           api-token: ${{ secrets.REPLICATED_API_TOKEN }}
@@ -58,3 +58,5 @@ jobs:
           installation-method: helm
           test-script: ./tests/test.sh
           helm-chart-name: wordpress-enterprise
+          ttl: 1h
+          timeout-minutes: 30
