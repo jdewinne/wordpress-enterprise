@@ -42,3 +42,7 @@ jobs:
           installation-method: helm
           test-script: ./tests/test.sh
           helm-chart-name: wordpress-enterprise
+          ttl: 1h
+          timeout-minutes: 30
+          entitlements: |
+            blogname: "somename"
