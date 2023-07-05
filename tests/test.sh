@@ -1,2 +1,2 @@
 
-kubectl get pod | grep nginx
+kubectl get pod -A
