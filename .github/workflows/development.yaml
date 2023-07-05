@@ -29,7 +29,15 @@ jobs:
           helm package . -u -d manifests2 \
             --app-version=0.0.1-${{ github.ref_name }} \
             --version=${{ env.APP_VERSION }}
-
+      - name: Create a default cluster
+        id: create-cluster
+        uses: replicatedhq/compatibility-actions/create-cluster@joshd/timeouts-for-smoke-test
+        with:
+          api-token: ${{ secrets.REPLICATED_API_TOKEN }}
+          kubernetes-distribution: kind
+          kubernetes-version: 1.25.3
+          cluster-name: just-a-cluster-with-defaults
+          
       - name: Smoke Test
         id: smoke-test
         uses: replicatedhq/compatibility-actions/smoke-test@joshd/timeouts-for-smoke-test
@@ -43,5 +51,3 @@ jobs:
           test-script: ./tests/test.sh
           helm-chart-name: wordpress-enterprise
           timeout-minutes: 30
-          entitlements: |
-            blogname: somename
