@@ -31,7 +31,7 @@ jobs:
             --version=${{ env.APP_VERSION }}
       - name: Create a default cluster
         id: create-cluster
-        uses: replicatedhq/compatibility-actions/create-cluster@joshd/timeouts-for-smoke-test
+        uses: replicatedhq/compatibility-actions/create-cluster@v0
         with:
           api-token: ${{ secrets.REPLICATED_API_TOKEN }}
           kubernetes-distribution: kind
@@ -40,7 +40,7 @@ jobs:
           
       - name: Smoke Test
         id: smoke-test
-        uses: replicatedhq/compatibility-actions/smoke-test@joshd/timeouts-for-smoke-test
+        uses: replicatedhq/compatibility-actions/smoke-test@v0
         with:
           app-slug: ${{ secrets.REPLICATED_APP }}
           api-token: ${{ secrets.REPLICATED_API_TOKEN }}
