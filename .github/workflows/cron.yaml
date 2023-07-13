@@ -1,0 +1,29 @@
+name: cron
+
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '30 5,17 * * *'
+  workflow_dispatch:
+
+jobs:
+  compatibility-matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        cluster: [{distribution: kind, version: v1.25.3, installation-method: kots}]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create Cluster
+        id: create-cluster
+        uses: replicatedhq/compatibility-actions/create-cluster@v0
+        with:
+          api-token: ${{ secrets.OKTETO_REPLICATED_API_TOKEN }}
+          kubernetes-distribution: ${{ matrix.cluster.distribution }}
+          kubernetes-version: ${{ matrix.cluster.version }}
+          cluster-name: ${{ github.ref_name }}-${{ matrix.cluster.distribution }}-${{ matrix.cluster.version }}
+          timeout-minutes: 20
+          replicated-api-endpoint: https://vendor-api-jdewinne.okteto.repldev.com
+          
