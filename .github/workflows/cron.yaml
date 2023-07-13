@@ -25,5 +25,5 @@ jobs:
           kubernetes-version: ${{ matrix.cluster.version }}
           cluster-name: ${{ github.ref_name }}-${{ matrix.cluster.distribution }}-${{ matrix.cluster.version }}
           timeout-minutes: 20
-          replicated-api-endpoint: https://vendor-api-jdewinne.okteto.repldev.com
+          replicated-api-endpoint: https://vendor-api-jdewinne.okteto.repldev.com/v3
           
