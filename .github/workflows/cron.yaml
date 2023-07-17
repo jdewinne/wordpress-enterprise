@@ -18,7 +18,7 @@ jobs:
 
       - name: Create Cluster
         id: create-cluster
-        uses: replicatedhq/compatibility-actions/create-cluster@joshd/create-cluster-ttl
+        uses: replicatedhq/compatibility-actions/create-cluster@joshd/get-clusters-pagination
         with:
           api-token: ${{ secrets.OKTETO_REPLICATED_API_TOKEN }}
           kubernetes-distribution: ${{ matrix.cluster.distribution }}
