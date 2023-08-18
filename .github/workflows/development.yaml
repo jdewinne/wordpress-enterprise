@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cluster: [ {distribution: kind, version: v1.25.3}]
+        cluster: [ {distribution: kind, version: v1.27.0}]
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -26,19 +26,15 @@ jobs:
         id: package-helm-chart
         run: |
           mkdir manifests2
-          helm package . -u -d manifests2 \
-            --app-version=0.0.1-${{ github.ref_name }} \
-            --version=${{ env.APP_VERSION }}
+          helm package . -u -d manifests2
 
-      - name: Smoke Test
-        id: smoke-test
-        uses: replicatedhq/compatibility-actions/smoke-test@gh-run-id
+      - name: Prepare Cluster
+        id: prepare-cluster
+        uses: replicatedhq/compatibility-actions/prepare-cluster@joshd/sc-86715/cluster-prepare-github-action
         with:
           app-slug: ${{ secrets.REPLICATED_APP }}
           api-token: ${{ secrets.REPLICATED_API_TOKEN }}
-          yaml-dir: manifests2
+          chart: manifests2/wordpress-enterprise-0.3.1.tgz
           kubernetes-distribution: ${{ matrix.cluster.distribution }}
           kubernetes-version: ${{ matrix.cluster.version }}
-          installation-method: helm
-          test-script: ./tests/test.sh
           helm-chart-name: wordpress-enterprise
