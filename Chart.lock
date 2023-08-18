@@ -1,6 +1,6 @@
 dependencies:
-- name: replicated
+- name: replicated-sdk
   repository: oci://registry.replicated.com/library
-  version: 0.0.1-alpha.16
-digest: sha256:4003b33282b2c6565a626f7dc1b68d9ef58fd253ae6bf1da056cdf81ad00610b
-generated: "2023-06-13T18:51:15.028024-05:00"
+  version: 0.0.1-beta.3
+digest: sha256:0f6bc7436ffa513be3f86778ba033879683175ccda14b525f69857b1d3b4ba04
+generated: "2023-08-15T15:24:03.222657-07:00"
