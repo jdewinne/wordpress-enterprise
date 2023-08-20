@@ -15,6 +15,7 @@ stringData:
       analyzers:
         - nodeResources:
             checkName: Node Count Check
+            strict: true
             outcomes:
               - fail:
                   when: 'count() < 10'
