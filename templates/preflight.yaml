@@ -18,7 +18,7 @@ stringData:
             outcomes:
               - fail:
                   when: 'count() < 10'
-                  message: "The cluster has less than 3 nodes."
+                  message: "The cluster has less than 10 nodes."
               - pass:
                   message: You have enough nodes
         - clusterVersion:
