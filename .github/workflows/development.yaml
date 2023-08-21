@@ -30,7 +30,7 @@ jobs:
         with:
           app-slug: ${{ secrets.REPLICATED_APP }}
           api-token: ${{ secrets.REPLICATED_API_TOKEN }}
-          chart: manifest2/wordpress-enterprise-0.3.1.tgz
+          chart: manifests2/wordpress-enterprise-0.3.1.tgz
           kubernetes-distribution: ${{ matrix.cluster.distribution }}
           kubernetes-version: ${{ matrix.cluster.version }}
           helm-chart-name: wordpress-enterprise
